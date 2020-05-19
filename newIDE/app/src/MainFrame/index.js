@@ -100,6 +100,7 @@ import { type MainMenuProps } from './MainMenu.flow';
 import useForceUpdate from '../Utils/UseForceUpdate';
 import useStateWithCallback from '../Utils/UseSetStateWithCallback';
 import { type PreviewState } from './PreviewState.flow';
+import useCommand from '../CommandPanel/hook';
 
 const GD_STARTUP_TIMES = global.GD_STARTUP_TIMES || [];
 
@@ -219,6 +220,20 @@ const MainFrame = (props: Props) => {
   const preferences = React.useContext(PreferencesContext);
   const [previewLoading, setPreviewLoading] = React.useState<boolean>(false);
   const [previewState, setPreviewState] = React.useState(initialPreviewState);
+
+  const sampleCmdHandler = React.useCallback(
+    () => {
+      console.log('Hello');
+    },
+    [state.currentProject]
+  );
+
+  useCommand({
+    name: 'SOME_COMMAND',
+    text: 'Do something great',
+    enabled: true,
+    handler: sampleCmdHandler,
+  });
 
   // This is just for testing, to check if we're getting the right state
   // and gives us an idea about the number of re-renders.
@@ -1334,6 +1349,13 @@ const MainFrame = (props: Props) => {
     }
     return closeProject();
   };
+
+  useCommand({
+    name: 'CLOSE_PROJECT',
+    text: 'Close the current project',
+    enabled: !!state.currentProject,
+    handler: askToCloseProject,
+  });
 
   const openSceneOrProjectManager = (
     newState = {

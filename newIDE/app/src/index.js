@@ -54,7 +54,9 @@ class Bootstrapper extends Component<{}, State> {
     GD_STARTUP_TIMES.push(['bootstrapperComponentDidMount', performance.now()]);
 
     // Load GDevelop.js, ensuring a new version is fetched when the version changes.
-    loadScript(`./libGD.js?cache-buster=${VersionMetadata.versionWithHash}`).then(() => {
+    loadScript(
+      `./libGD.js?cache-buster=${VersionMetadata.versionWithHash}`
+    ).then(() => {
       GD_STARTUP_TIMES.push(['libGDLoadedTime', performance.now()]);
       const initializeGDevelopJs = global.initializeGDevelopJs;
       if (!initializeGDevelopJs) {
@@ -94,7 +96,7 @@ class Bootstrapper extends Component<{}, State> {
     }, this.handleEditorLoadError);
   }
 
-  handleEditorLoadError = (err) => {
+  handleEditorLoadError = err => {
     const message = !electron
       ? 'Please check your internet connectivity, close the tab and reopen it.'
       : 'Please restart the application or reinstall the latest version if the problem persists.';
@@ -103,7 +105,7 @@ class Bootstrapper extends Component<{}, State> {
       loadingMessage: `Unable to load GDevelop. ${message}`,
     });
     showErrorBox(`Unable to load GDevelop. ${message}`, err);
-  }
+  };
 
   render() {
     const { App, loadingMessage } = this.state;
