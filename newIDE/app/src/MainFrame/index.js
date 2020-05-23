@@ -228,8 +228,7 @@ const MainFrame = (props: Props) => {
     [state.currentProject]
   );
 
-  useCommand({
-    name: 'SOME_COMMAND',
+  useCommand('SOME_COMMAND', {
     text: 'Do something great',
     enabled: true,
     handler: sampleCmdHandler,
@@ -1350,8 +1349,7 @@ const MainFrame = (props: Props) => {
     return closeProject();
   };
 
-  useCommand({
-    name: 'CLOSE_PROJECT',
+  useCommand('CLOSE_PROJECT', {
     text: 'Close the current project',
     enabled: !!state.currentProject,
     handler: askToCloseProject,

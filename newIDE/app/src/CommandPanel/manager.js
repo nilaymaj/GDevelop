@@ -1,60 +1,75 @@
 // @flow
 
-export type Command = {
-  name: string, // Unique identifier
+export type Command = {|
   text: string, // Display text
   enabled: boolean,
   handler: () => void | Promise<void>,
-};
+|};
+
+export type UICommand = {|
+  name: string,
+  text: string, // Display text
+  enabled: boolean,
+  handler: () => void | Promise<void>,
+|};
 
 class CommandManager {
-  commands: Array<Command>;
+  commands: { [string]: Command };
 
   constructor() {
-    this.commands = [];
+    this.commands = {};
   }
 
   _hasCmd(cmdName: string) {
-    const cmdIdx = this.commands.findIndex(c => c.name === cmdName);
-    return cmdIdx !== -1;
+    const cmd = this.commands[cmdName];
+    return cmd !== undefined;
   }
 
-  register = (cmd: Command) => {
-    if (this._hasCmd(cmd.name)) {
-      console.warn(`Command '${cmd.name}' already exists.`);
+  register = (cmdName: string, cmd: Command) => {
+    if (this._hasCmd(cmdName)) {
+      console.warn(`Command '${cmdName}' already exists.`);
       return;
     }
-    this.commands.push(cmd);
-    console.log(`New command ${cmd.name} registered!`);
+    this.commands[cmdName] = cmd;
+    console.log(`New command '${cmdName}' registered!`);
   };
 
   execute = (cmdName: string) => {
-    const cmd = this.commands.find(c => c.name === cmdName);
+    const cmd = this.commands[cmdName];
     if (!cmd) {
       console.warn(`Command '${cmdName}' does not exist.`);
       return;
     }
     cmd.handler && cmd.handler();
-    console.log(`Executed command ${cmd.name}!`);
+    console.log(`Executed command ${cmdName}!`);
   };
 
   deregister = (cmdName: string) => {
-    const cmdIdx = this.commands.findIndex(c => c.name === cmdName);
-    if (cmdIdx === -1) {
+    const cmd = this.commands[cmdName];
+    if (!cmd) {
       console.warn(`Command '${cmdName}' does not exist.`);
       return;
     }
-    this.commands.splice(cmdIdx, 1);
+    delete this.commands[cmdName];
     console.log(`Command ${cmdName} unregistered!`);
   };
 
-  getAll = () => {
-    return this.commands;
+  getAll = (): Array<UICommand> => {
+    const commands = Object.keys(this.commands).map<UICommand>(cmdName => ({
+      ...this.commands[cmdName],
+      name: cmdName,
+    }));
+    return commands;
   };
 
-  getEnabled = (): Array<Command> => {
-    const enabledCommands = this.commands.filter(c => c.enabled);
-    return enabledCommands;
+  getEnabled = (): Array<UICommand> => {
+    const commands = Object.keys(this.commands)
+      .filter(name => this.commands[name].enabled)
+      .map<UICommand>(cmdName => ({
+        ...this.commands[cmdName],
+        name: cmdName,
+      }));
+    return commands;
   };
 }
 
