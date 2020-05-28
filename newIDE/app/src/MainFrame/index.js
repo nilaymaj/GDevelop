@@ -100,7 +100,7 @@ import { type MainMenuProps } from './MainMenu.flow';
 import useForceUpdate from '../Utils/UseForceUpdate';
 import useStateWithCallback from '../Utils/UseSetStateWithCallback';
 import { type PreviewState } from './PreviewState.flow';
-import { useCommand, useEnableGotoCommand } from '../CommandPanel/hook';
+import { useCommand, useEnableGotoCommands } from '../CommandPanel/hook';
 
 const GD_STARTUP_TIMES = global.GD_STARTUP_TIMES || [];
 
@@ -230,11 +230,11 @@ const MainFrame = (props: Props) => {
 
   useCommand('SOME_COMMAND', {
     text: 'Do something great',
-    enabled: true,
+    enabled: !!state.currentProject,
     handler: sampleCmdHandler,
   });
 
-  useEnableGotoCommand('EDIT_OBJ_VARS', !!state.currentProject);
+  useEnableGotoCommands(state.currentProject);
 
   // This is just for testing, to check if we're getting the right state
   // and gives us an idea about the number of re-renders.
@@ -1350,12 +1350,6 @@ const MainFrame = (props: Props) => {
     }
     return closeProject();
   };
-
-  useCommand('CLOSE_PROJECT', {
-    text: 'Close the current project',
-    enabled: !!state.currentProject,
-    handler: askToCloseProject,
-  });
 
   const openSceneOrProjectManager = (
     newState = {

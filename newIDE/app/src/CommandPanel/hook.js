@@ -14,14 +14,14 @@ export const useCommand = (cmdName: string, cmd: Command) => {
   );
 };
 
-export const useEnableGotoCommand = (cmdName: string, enabled: boolean) => {
+export const useEnableGotoCommands = (project: ?gdProject) => {
   const manager = React.useContext(CommandsContext);
   React.useEffect(
     () => {
-      if (enabled) manager.enableGotoCommand(cmdName);
-      return () => manager.disableGotoCommand(cmdName);
+      if (!!project) manager.initializeGotoCommands(project);
+      return () => manager.disableGotoCommands();
     },
-    [cmdName, enabled]
+    [project]
   );
 };
 

@@ -2,7 +2,6 @@
 
 const sampleGotoCommand = {
   text: 'Edit object variables...',
-  enabled: false,
   options: [
     {
       value: 1,
@@ -15,6 +14,14 @@ const sampleGotoCommand = {
       handler: null,
     },
   ],
+};
+
+// Simulate the goto command generating function for now
+const traverseProjectForGotoCommands = (project: gdProject) => {
+  console.log(project);
+  return {
+    EDIT_OBJ_VARS: sampleGotoCommand,
+  };
 };
 
 export type Command = {|
@@ -36,7 +43,6 @@ export type OverrideOption<T> = {|
 
 export type GotoCommand<T> = {|
   text: string, // Display text
-  enabled: boolean,
   options: Array<Option<T>>,
 |};
 
@@ -50,13 +56,12 @@ export type UICommand = {|
 class CommandManager {
   commands: { [string]: Command };
   gotoCommands: { [string]: GotoCommand<any> };
+  gotoEnabled: boolean;
 
   constructor() {
     this.commands = {};
-    this.gotoCommands = {
-      // Simulate the base handler generator for now
-      EDIT_OBJ_VARS: sampleGotoCommand,
-    };
+    this.gotoEnabled = false;
+    this.gotoCommands = {};
   }
 
   // Basic commands
@@ -97,24 +102,15 @@ class CommandManager {
 
   // Goto Anything commands
 
-  enableGotoCommand = (cmdName: string) => {
-    const cmd = this.gotoCommands[cmdName];
-    if (!cmd) {
-      console.warn(`Command '${cmdName}' does not exist.`);
-      return;
-    }
-    cmd.enabled = true;
-    console.warn(`Enabled command '${cmdName}'`);
+  initializeGotoCommands = (project: gdProject) => {
+    const gotoCmds = traverseProjectForGotoCommands(project);
+    this.gotoEnabled = true;
+    this.gotoCommands = gotoCmds;
   };
 
-  disableGotoCommand = (cmdName: string) => {
-    const cmd = this.gotoCommands[cmdName];
-    if (!cmd) {
-      console.warn(`Command '${cmdName}' does not exist.`);
-      return;
-    }
-    cmd.enabled = false;
-    console.warn(`Enabled command '${cmdName}'`);
+  disableGotoCommands = () => {
+    this.gotoEnabled = false;
+    this.gotoCommands = {};
   };
 
   overrideGotoCommandOptions = <T>(
@@ -122,7 +118,7 @@ class CommandManager {
     options: Array<OverrideOption<T>>
   ) => {
     const cmd = this.gotoCommands[cmdName];
-    if (!cmd || !cmd.enabled) return console.warn('Not found or disabled');
+    if (!cmd) return console.warn('Not found or disabled');
     // Override option handlers
     options.forEach(opt => {
       const cmdOpt = cmd.options.find(o => o.value === opt.value);
@@ -142,7 +138,7 @@ class CommandManager {
 
   withdrawGotoCommandOptions = <T>(cmdName: string, optionVals: Array<T>) => {
     const cmd = this.gotoCommands[cmdName];
-    if (!cmd || !cmd.enabled) return console.warn('Not found or disabled');
+    if (!cmd) return console.warn('Not found or disabled');
     // Withdraw option handlers
     optionVals.forEach(val => {
       const cmdOpt = cmd.options.find(o => o.value === val);
