@@ -100,6 +100,7 @@ import { type MainMenuProps } from './MainMenu.flow';
 import useForceUpdate from '../Utils/UseForceUpdate';
 import useStateWithCallback from '../Utils/UseSetStateWithCallback';
 import { type PreviewState } from './PreviewState.flow';
+import { useCommand, useEnableGotoCommands } from '../CommandPanel/hook';
 
 const GD_STARTUP_TIMES = global.GD_STARTUP_TIMES || [];
 
@@ -219,6 +220,21 @@ const MainFrame = (props: Props) => {
   const preferences = React.useContext(PreferencesContext);
   const [previewLoading, setPreviewLoading] = React.useState<boolean>(false);
   const [previewState, setPreviewState] = React.useState(initialPreviewState);
+
+  const sampleCmdHandler = React.useCallback(
+    () => {
+      console.log('Hello');
+    },
+    [state.currentProject]
+  );
+
+  useCommand('SOME_COMMAND', {
+    text: 'Do something great',
+    enabled: !!state.currentProject,
+    handler: sampleCmdHandler,
+  });
+
+  useEnableGotoCommands(state.currentProject);
 
   // This is just for testing, to check if we're getting the right state
   // and gives us an idea about the number of re-renders.

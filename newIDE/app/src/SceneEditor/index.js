@@ -66,6 +66,7 @@ import { ResponsiveWindowMeasurer } from '../UI/Reponsive/ResponsiveWindowMeasur
 import { type UnsavedChanges } from '../MainFrame/UnsavedChangesContext';
 import SceneVariablesDialog from './SceneVariablesDialog';
 import PreferencesContext from '../MainFrame/Preferences/PreferencesContext';
+import { CommandsContext } from '../CommandPanel/context';
 const gd = global.gd;
 
 const INSTANCES_CLIPBOARD_KIND = 'Instances';
@@ -984,30 +985,35 @@ export default class SceneEditor extends React.Component<Props, State> {
           <CloseButton key="close" />,
         ],
         renderEditor: () => (
-          <ObjectsList
-            getThumbnail={ObjectsRenderingService.getThumbnail.bind(
-              ObjectsRenderingService
+          <CommandsContext.Consumer>
+            {cmdManager => (
+              <ObjectsList
+                getThumbnail={ObjectsRenderingService.getThumbnail.bind(
+                  ObjectsRenderingService
+                )}
+                project={project}
+                cmdManager={cmdManager}
+                objectsContainer={layout}
+                selectedObjectNames={this.state.selectedObjectNames}
+                onEditObject={this.props.onEditObject || this.editObject}
+                onDeleteObject={this._onDeleteObject}
+                canRenameObject={this._canObjectOrGroupUseNewName}
+                onObjectCreated={this._addInstanceForNewObject}
+                onObjectSelected={this._onObjectSelected}
+                onRenameObject={this._onRenameObject}
+                onObjectPasted={() => this.updateBehaviorsSharedData()}
+                selectedObjectTags={this.state.selectedObjectTags}
+                onChangeSelectedObjectTags={selectedObjectTags =>
+                  this.setState({
+                    selectedObjectTags,
+                  })
+                }
+                getAllObjectTags={this._getAllObjectTags}
+                ref={objectsList => (this._objectsList = objectsList)}
+                unsavedChanges={this.props.unsavedChanges}
+              />
             )}
-            project={project}
-            objectsContainer={layout}
-            selectedObjectNames={this.state.selectedObjectNames}
-            onEditObject={this.props.onEditObject || this.editObject}
-            onDeleteObject={this._onDeleteObject}
-            canRenameObject={this._canObjectOrGroupUseNewName}
-            onObjectCreated={this._addInstanceForNewObject}
-            onObjectSelected={this._onObjectSelected}
-            onRenameObject={this._onRenameObject}
-            onObjectPasted={() => this.updateBehaviorsSharedData()}
-            selectedObjectTags={this.state.selectedObjectTags}
-            onChangeSelectedObjectTags={selectedObjectTags =>
-              this.setState({
-                selectedObjectTags,
-              })
-            }
-            getAllObjectTags={this._getAllObjectTags}
-            ref={objectsList => (this._objectsList = objectsList)}
-            unsavedChanges={this.props.unsavedChanges}
-          />
+          </CommandsContext.Consumer>
         ),
       },
       'object-groups-list': {

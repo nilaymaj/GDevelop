@@ -27,6 +27,7 @@ import DownloadFileStorageProvider from './ProjectsStorage/DownloadFileStoragePr
 import DropboxStorageProvider from './ProjectsStorage/DropboxStorageProvider';
 import OneDriveStorageProvider from './ProjectsStorage/OneDriveStorageProvider';
 import UnsavedChangesContext from './MainFrame/UnsavedChangesContext';
+import CommandsContextProvider from './CommandPanel/context';
 
 export const create = (authentification: Authentification) => {
   Window.setUpContextMenu();
@@ -59,45 +60,47 @@ export const create = (authentification: Authentification) => {
             storageProviders,
             initialFileMetadataToOpen,
           }) => (
-            <UnsavedChangesContext.Consumer>
-              {unsavedChanges => (
-                <MainFrame
-                  i18n={i18n}
-                  eventsFunctionsExtensionsState={
-                    eventsFunctionsExtensionsState
-                  }
-                  renderPreviewLauncher={(props, ref) => (
-                    <BrowserS3PreviewLauncher {...props} ref={ref} />
-                  )}
-                  renderExportDialog={props => (
-                    <ExportDialog
-                      {...props}
-                      exporters={getBrowserExporters()}
-                      allExportersRequireOnline
-                    />
-                  )}
-                  renderCreateDialog={props => (
-                    <CreateProjectDialog
-                      {...props}
-                      examplesComponent={BrowserExamples}
-                      startersComponent={BrowserStarters}
-                    />
-                  )}
-                  introDialog={<BrowserIntroDialog />}
-                  storageProviders={storageProviders}
-                  getStorageProviderOperations={getStorageProviderOperations}
-                  resourceSources={browserResourceSources}
-                  resourceExternalEditors={browserResourceExternalEditors}
-                  extensionsLoader={makeExtensionsLoader({
-                    objectsEditorService: ObjectsEditorService,
-                    objectsRenderingService: ObjectsRenderingService,
-                    filterExamples: !Window.isDev(),
-                  })}
-                  initialFileMetadataToOpen={initialFileMetadataToOpen}
-                  unsavedChanges={unsavedChanges}
-                />
-              )}
-            </UnsavedChangesContext.Consumer>
+            <CommandsContextProvider>
+              <UnsavedChangesContext.Consumer>
+                {unsavedChanges => (
+                  <MainFrame
+                    i18n={i18n}
+                    eventsFunctionsExtensionsState={
+                      eventsFunctionsExtensionsState
+                    }
+                    renderPreviewLauncher={(props, ref) => (
+                      <BrowserS3PreviewLauncher {...props} ref={ref} />
+                    )}
+                    renderExportDialog={props => (
+                      <ExportDialog
+                        {...props}
+                        exporters={getBrowserExporters()}
+                        allExportersRequireOnline
+                      />
+                    )}
+                    renderCreateDialog={props => (
+                      <CreateProjectDialog
+                        {...props}
+                        examplesComponent={BrowserExamples}
+                        startersComponent={BrowserStarters}
+                      />
+                    )}
+                    introDialog={<BrowserIntroDialog />}
+                    storageProviders={storageProviders}
+                    getStorageProviderOperations={getStorageProviderOperations}
+                    resourceSources={browserResourceSources}
+                    resourceExternalEditors={browserResourceExternalEditors}
+                    extensionsLoader={makeExtensionsLoader({
+                      objectsEditorService: ObjectsEditorService,
+                      objectsRenderingService: ObjectsRenderingService,
+                      filterExamples: !Window.isDev(),
+                    })}
+                    initialFileMetadataToOpen={initialFileMetadataToOpen}
+                    unsavedChanges={unsavedChanges}
+                  />
+                )}
+              </UnsavedChangesContext.Consumer>
+            </CommandsContextProvider>
           )}
         </ProjectStorageProviders>
       )}
