@@ -36,6 +36,7 @@ import {
   getTagsFromString,
 } from '../Utils/TagsHelper';
 import { type UnsavedChanges } from '../MainFrame/UnsavedChangesContext';
+import CommandManager from '../CommandPanel/manager';
 
 const styles = {
   listContainer: {
@@ -99,6 +100,7 @@ type Props = {|
 
   getThumbnail: (project: gdProject, object: Object) => string,
   unsavedChanges?: ?UnsavedChanges,
+  cmdManager: CommandManager,
 |};
 
 export default class ObjectsList extends React.Component<Props, State> {
@@ -143,6 +145,17 @@ export default class ObjectsList extends React.Component<Props, State> {
       return true;
 
     return false;
+  }
+
+  componentDidMount() {
+    this.props.cmdManager.overrideGotoCommandOptions('EDIT_OBJ_VARS', [
+      { handler: () => console.log('Overridden 1'), value: 1 },
+      { handler: () => console.log('Overridden 3'), value: 3 },
+    ]);
+  }
+
+  componentWillUnmount() {
+    this.props.cmdManager.withdrawGotoCommandOptions('EDIT_OBJ_VARS', [1, 3]);
   }
 
   addObject = (objectType: string) => {

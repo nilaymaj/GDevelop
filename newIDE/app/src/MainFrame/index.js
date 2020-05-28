@@ -100,7 +100,7 @@ import { type MainMenuProps } from './MainMenu.flow';
 import useForceUpdate from '../Utils/UseForceUpdate';
 import useStateWithCallback from '../Utils/UseSetStateWithCallback';
 import { type PreviewState } from './PreviewState.flow';
-import useCommand from '../CommandPanel/hook';
+import { useCommand, useEnableGotoCommand } from '../CommandPanel/hook';
 
 const GD_STARTUP_TIMES = global.GD_STARTUP_TIMES || [];
 
@@ -233,6 +233,8 @@ const MainFrame = (props: Props) => {
     enabled: true,
     handler: sampleCmdHandler,
   });
+
+  useEnableGotoCommand('EDIT_OBJ_VARS', !!state.currentProject);
 
   // This is just for testing, to check if we're getting the right state
   // and gives us an idea about the number of re-renders.
