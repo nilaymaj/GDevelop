@@ -207,6 +207,7 @@ import {
   type NamedCommand,
   type CommandOption,
 } from '../CommandPalette/CommandManager';
+import KeyboardShortcutsTestBed from './KeyboardShortcutsTestBed';
 import HotReloadPreviewButton, {
   type HotReloadPreviewButtonProps,
 } from '../HotReload/HotReloadPreviewButton';
@@ -4544,6 +4545,10 @@ storiesOf('CommandPalette', module)
       )}
     </I18n>
   ));
+
+storiesOf('KeyboardShortcuts', module)
+  .addDecorator(muiDecorator)
+  .add('Shortcut test bed', () => <KeyboardShortcutsTestBed />);
 
 storiesOf('HotReloadPreviewButton', module)
   .addDecorator(muiDecorator)
