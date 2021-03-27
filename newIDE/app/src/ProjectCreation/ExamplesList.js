@@ -154,7 +154,7 @@ export default class LocalExamples extends React.Component<Props, State> {
                   return (
                     <ListItem
                       key={exampleName}
-                      primaryText={exampleFullName}
+                      primaryText={<b>{exampleFullName}</b>}
                       secondaryText={exampleInformation.description}
                       secondaryTextLines={2}
                       onClick={() =>

@@ -32,7 +32,7 @@ const TutorialListItem = ({
           />
         ) : null
       }
-      primaryText={tutorialHint.name}
+      primaryText={<b>{tutorialHint.name}</b>}
       secondaryText={i18n._(tutorialHint.message)}
       onClick={() => {
         sendTutorialOpened(tutorialHint.identifier);

@@ -125,14 +125,18 @@ export default class LocalStarters extends Component<Props, State> {
                         src="res/starters_icons/platformer.png"
                       />
                     }
-                    primaryText={<Trans>Platformer</Trans>}
+                    primaryText={
+                      <b>
+                        <Trans>Platformer</Trans>
+                      </b>
+                    }
                     secondaryText={
                       <Trans>
                         A simple platform game, with coins to collect, moving
                         platforms and enemies.
                       </Trans>
                     }
-                    secondaryTextLines={2}
+                    secondaryTextLines={1}
                     onClick={() => this.createFromExample(i18n, 'platformer')}
                   />
                   <ListItem
@@ -142,7 +146,11 @@ export default class LocalStarters extends Component<Props, State> {
                         src="res/starters_icons/space-shooter.png"
                       />
                     }
-                    primaryText={<Trans>8-bit Space Shooter</Trans>}
+                    primaryText={
+                      <b>
+                        <Trans>8-bit Space Shooter</Trans>
+                      </b>
+                    }
                     secondaryText={
                       <Trans>
                         A beautiful, retro side-scrolling shooter where you must
@@ -162,7 +170,11 @@ export default class LocalStarters extends Component<Props, State> {
                         src="res/starters_icons/geometry-monster.png"
                       />
                     }
-                    primaryText={<Trans>Geometry Monster</Trans>}
+                    primaryText={
+                      <b>
+                        <Trans>Geometry Monster</Trans>
+                      </b>
+                    }
                     secondaryText={
                       <Trans>
                         A hyper casual endless game where you have to collect
@@ -170,7 +182,7 @@ export default class LocalStarters extends Component<Props, State> {
                         difficulty.
                       </Trans>
                     }
-                    secondaryTextLines={2}
+                    secondaryTextLines={1}
                     onClick={() =>
                       this.createFromExample(i18n, 'geometry-monster')
                     }
@@ -182,14 +194,18 @@ export default class LocalStarters extends Component<Props, State> {
                         src="res/starters_icons/isometric-game.png"
                       />
                     }
-                    primaryText={<Trans>Isometric game</Trans>}
+                    primaryText={
+                      <b>
+                        <Trans>Isometric game</Trans>
+                      </b>
+                    }
                     secondaryText={
                       <Trans>
                         An example of an isometric game where you can explore a
                         map with your character.
                       </Trans>
                     }
-                    secondaryTextLines={2}
+                    secondaryTextLines={1}
                     onClick={() =>
                       this.createFromExample(i18n, 'isometric-game')
                     }
@@ -201,14 +217,18 @@ export default class LocalStarters extends Component<Props, State> {
                         src="res/starters_icons/downhill-bike-physics-demo.png"
                       />
                     }
-                    primaryText="Downhill Bike Racing"
+                    primaryText={
+                      <b>
+                        <Trans>Downhill Bike Racing</Trans>
+                      </b>
+                    }
                     secondaryText={
                       <Trans>
                         An example of a 2D physics based game, where players
                         have to reach the end as fast as possible.
                       </Trans>
                     }
-                    secondaryTextLines={2}
+                    secondaryTextLines={1}
                     onClick={() =>
                       this.createFromExample(i18n, 'downhill-bike-physics-demo')
                     }
@@ -220,7 +240,11 @@ export default class LocalStarters extends Component<Props, State> {
                         src="res/starters_icons/pairs.png"
                       />
                     }
-                    primaryText="Pairs"
+                    primaryText={
+                      <b>
+                        <Trans>Pairs</Trans>
+                      </b>
+                    }
                     secondaryText={
                       <Trans>
                         Find all matching pairs of cards in this relaxing game.
@@ -228,7 +252,7 @@ export default class LocalStarters extends Component<Props, State> {
                         few events.
                       </Trans>
                     }
-                    secondaryTextLines={2}
+                    secondaryTextLines={1}
                     onClick={() => this.createFromExample(i18n, 'pairs')}
                   />
                   <ListItem
@@ -238,11 +262,15 @@ export default class LocalStarters extends Component<Props, State> {
                         src="res/starters_icons/new.png"
                       />
                     }
-                    primaryText={<Trans>Empty game</Trans>}
+                    primaryText={
+                      <b>
+                        <Trans>Empty game</Trans>
+                      </b>
+                    }
                     secondaryText={
                       <Trans>Start a new game from scratch.</Trans>
                     }
-                    secondaryTextLines={2}
+                    secondaryTextLines={1}
                     onClick={() => this.createEmptyGame(i18n)}
                   />
                   <Subheader>
@@ -255,7 +283,11 @@ export default class LocalStarters extends Component<Props, State> {
                         src="res/starters_icons/particle-effects-demo.png"
                       />
                     }
-                    primaryText={<Trans>Particle Effects Demo</Trans>}
+                    primaryText={
+                      <b>
+                        <Trans>Particle Effects Demo</Trans>
+                      </b>
+                    }
                     secondaryText={
                       <Trans>
                         A demo of various high quality particle effects (fire,
@@ -263,7 +295,7 @@ export default class LocalStarters extends Component<Props, State> {
                         your game.
                       </Trans>
                     }
-                    secondaryTextLines={2}
+                    secondaryTextLines={1}
                     onClick={() =>
                       this.createFromExample(i18n, 'particle-effects-demo')
                     }
@@ -275,7 +307,11 @@ export default class LocalStarters extends Component<Props, State> {
                         src="res/starters_icons/game-feel-demo.png"
                       />
                     }
-                    primaryText={<Trans>Game Feel Demo</Trans>}
+                    primaryText={
+                      <b>
+                        <Trans>Game Feel Demo</Trans>
+                      </b>
+                    }
                     secondaryText={
                       <Trans>
                         A demo showing how to enhance the "game feel" of your
@@ -283,7 +319,7 @@ export default class LocalStarters extends Component<Props, State> {
                         screenshake, wobble...
                       </Trans>
                     }
-                    secondaryTextLines={2}
+                    secondaryTextLines={1}
                     onClick={() =>
                       this.createFromExample(i18n, 'game-feel-demo')
                     }

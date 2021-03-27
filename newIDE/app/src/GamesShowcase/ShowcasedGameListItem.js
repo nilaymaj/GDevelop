@@ -188,7 +188,12 @@ export const ShowcasedGameListItem = ({
           <Line expand>
             <Column expand>
               <ResponsiveLineStackLayout noMargin alignItems="baseline" expand>
-                <Text noMargin displayInlineAsSpan>
+                <Text
+                  size="title"
+                  style={{ marginRight: 5 }}
+                  noMargin
+                  displayInlineAsSpan
+                >
                   {showcasedGame.title}
                 </Text>
                 <Text noMargin size="body2" displayInlineAsSpan>
