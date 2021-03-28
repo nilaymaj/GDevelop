@@ -2,17 +2,22 @@
 import { Trans } from '@lingui/macro';
 
 import * as React from 'react';
-import { setupAutocompletions } from './LocalCodeEditorAutocompletions';
+import { setupAutocompletions as setupLocalAutocompletions } from './LocalCodeEditorAutocompletions';
+import { setupAutocompletions as setupBrowserAutocompletions } from './BrowserCodeEditorAutocompletions';
 import PlaceholderLoader from '../UI/PlaceholderLoader';
 import RaisedButton from '../UI/RaisedButton';
 import Text from '../UI/Text';
 import PreferencesContext from '../MainFrame/Preferences/PreferencesContext';
 import { getAllThemes } from './Theme';
+import optionalRequire from '../Utils/OptionalRequire';
+
+const electron = optionalRequire('electron');
 
 export type State = {|
   MonacoEditor: ?any,
   error: ?Error,
 |};
+
 export type Props = {|
   value: string,
   onChange: string => void,
@@ -66,7 +71,9 @@ export class CodeEditor extends React.Component<Props, State> {
         allowJs: true,
         checkJs: true,
       });
-      setupAutocompletions(monaco);
+
+      if (electron) setupLocalAutocompletions(monaco);
+      else setupBrowserAutocompletions(monaco);
     }
 
     if (this.props.onEditorMounted) this.props.onEditorMounted();
